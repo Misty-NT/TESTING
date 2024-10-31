@@ -16,7 +16,8 @@ if ($manufacturer -notlike "*Dell*") {
     exit
 }
 
-# Step 3: Check model and exit if incompatible (Vostro or Inspiron) To add more models "Vostro|Inspiron|NEW MODEL"
+# Step 3: Check model and exit if incompatible (Vostro or Inspiron)
+# To add more models, modify the regex to include them, e.g., "Vostro|Inspiron|NEW MODEL"
 $model = (Get-WmiObject Win32_ComputerSystem).Model
 if ($model -match "Vostro|Inspiron") {
     Write-Output "NON compatible model detected: $model"
@@ -32,7 +33,7 @@ $dcuCli = if (Test-Path $DCUPathX64) { $DCUPathX64 } elseif (Test-Path $DCUPathX
 # Step 5 & 6: If DCU is not found, download and install it
 if (-not $dcuCli) {
     Write-Output "Dell Command Update not found, downloading and installing..."
-   
+
     function Install-DellCommandUpdateUsingInstaller {
         $installerUrl = "https://downloads.dell.com/FOLDER11563484M/1/Dell-Command-Update-Windows-Universal-Application_P83K5_WIN_5.3.0_A00.EXE"
         $installerPath = "$env:TEMP\DCU_Setup.exe"
@@ -70,7 +71,7 @@ if ($dcuCli) {
                      "Installed Drivers: $installedDrivers" + "`n" +
                      "Failed Drivers: $failedDrivers" + "`n" +
                      "Reboot Required: $rebootRequired"
-    Ninja-Property-Set $dellcommandupdateResults $updateSummary
+    Ninja-Property-Set $customFieldName $updateSummary
 }
 else {
     Write-Output "Dell Command Update could not be found or installed"
