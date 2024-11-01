@@ -1,12 +1,12 @@
 param (
 # take a parameter taht is the path you wish to use to create the folder
     # [Parameter(Mandatory=$true)]
-    [string]$env:folderPath
+    [string]$env:NetworkTitan
 )
 
 try {
     # Construct the full folder path on the C drive
-    $location = "C:\$env:folderPath"
+    $location = "C:\$env:NetworkTitan"
 
     # Check if the specified folder exists
     if (Test-Path -Path $location -PathType Container) {
